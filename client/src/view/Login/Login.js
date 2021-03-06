@@ -5,27 +5,15 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {} from "./../../store/actions/auth.action"
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Login as LoginUser } from "./../../store/actions/auth.action";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,6 +38,22 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
 
+  const [email, setEmail] = React.useState("");
+
+  const [password, setPassword] = React.useState("");
+
+  const dispatch = useDispatch();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(
+      LoginUser({
+        email: email.target.value,
+        password: password.target.value,
+      })
+    );
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -58,9 +62,9 @@ const Login = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Login
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={submitHandler} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -70,6 +74,7 @@ const Login = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
+            onChange={(text) => setEmail(text)}
             autoFocus
           />
           <TextField
@@ -81,6 +86,7 @@ const Login = () => {
             label="Password"
             type="password"
             id="password"
+            onChange={(text) => setPassword(text)}
             autoComplete="current-password"
           />
           <FormControlLabel
@@ -97,22 +103,12 @@ const Login = () => {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Link to="/register">Don't have an account? Sign Up</Link>
             </Grid>
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 };

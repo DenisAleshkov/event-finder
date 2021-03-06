@@ -2,13 +2,15 @@ import React from "react"
 import Login from "./view/Login/Login"
 import Home from "./view/Home/Home"
 import Register from "./view/Register/Register"
-
+import {useSelector, useDispatch} from "react-redux"
 import {
   Switch,
   Route,
   Link
 } from "react-router-dom";
 import './App.css';
+
+
 
 function App() {
   return (
